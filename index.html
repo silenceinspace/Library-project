@@ -8,5 +8,43 @@
     <link rel="stylesheet" href="./styles.css" />
     <script src="./script.js" defer></script>
   </head>
-  <body></body>
+
+  <body>
+    <div class="container">
+      <h3>Book library</h3>
+
+      <form action="">
+        <p class="one">
+          <label for="book-title">Title: </label>
+          <input type="text" id="book-title" name="title" />
+        </p>
+
+        <p class="two">
+          <label for="book-author">Author: </label>
+          <input type="text" name="author" id="book-author" />
+        </p>
+
+        <p class="three">
+          <label for="book-pages">Pages: </label>
+          <input type="text" name="pages" id="book-pages" />
+        </p>
+
+        <!-- <p>Have you read it?</p>
+        <p>
+          <label for="book-is-read">Yes</label>
+          <input type="radio" id="book-is-read" name="status" value="Yes" />
+
+          <label for="book-not-read">No</label>
+          <input
+            type="radio"
+            id="book-not-read"
+            name="status"
+            value="No"
+            checked
+          />
+        </p> -->
+      </form>
+      <button type="button">Submit</button>
+    </div>
+  </body>
 </html>

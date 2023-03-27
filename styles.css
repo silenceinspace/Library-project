@@ -1,5 +1,93 @@
+@font-face {
+  font-family: "Roboto";
+  src: url(./fonts/Roboto/Roboto-Light.ttf);
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+html {
+  min-height: 100vh;
+  font-family: "Roboto", "Times New Roman", Times, serif;
+}
+
+.container {
+  border: 3px solid black;
+  padding: 50px;
+  background-color: goldenrod;
+}
+
+.container > h3 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+form {
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: repeat(3, 30px);
+  gap: 20px;
+}
+
+.one {
+  grid-row: 1/2;
+}
+
+.two {
+  grid-row: 2/3;
+}
+
+.three {
+  grid-row: 3/4;
+}
+
+.one,
+.two,
+.three {
+  grid-column: 1/2;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+}
+
+button {
+  border-radius: 10px;
+  padding: 10px 40px;
+  font-size: 1.3rem;
+  border: 2px purple solid;
+
+  display: block;
+  margin: auto;
+}
+
+button:hover {
+  color: red;
+  border: 2px red solid;
+  text-decoration: underline;
+}
+
+form input {
+  width: 200px;
+  line-height: 20px;
+  padding: 3px 8px;
+
+  appearance: none;
+  border-radius: 12px;
+  border: none;
+
+  font-family: inherit;
+  font-size: 100%;
+}
+
+form input:focus {
+  border: 2px solid purple;
+  outline: none;
+}
+
+form label {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
