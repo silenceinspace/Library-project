@@ -9,48 +9,44 @@
   box-sizing: border-box;
 }
 
-html {
+body {
   min-height: 100vh;
   font-family: "Roboto", "Times New Roman", Times, serif;
 }
 
 .container {
-  border: 3px solid black;
-  padding: 50px;
+  display: grid;
+  grid-template-rows: 350px 1fr;
   background-color: goldenrod;
+  min-height: 100vh;
 }
 
-.container > h3 {
-  text-align: center;
-  font-size: 2rem;
+.title-section {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-right: 3px black solid;
 }
 
 form {
-  margin: 20px auto;
+  width: 300px;
   display: grid;
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: repeat(3, 30px);
+  grid-template-rows: repeat(3, 40px);
   gap: 20px;
 }
 
-.one {
-  grid-row: 1/2;
-}
-
-.two {
-  grid-row: 2/3;
-}
-
-.three {
-  grid-row: 3/4;
-}
-
-.one,
-.two,
-.three {
-  grid-column: 1/2;
+.title-input,
+.author-input,
+.pages-input {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 80px 1fr;
+  gap: 20px;
 }
 
 button {
@@ -93,9 +89,27 @@ form label {
 }
 
 .display-titles {
+  padding: 30px 60px;
   background-color: grey;
-  padding: 30px;
+  width: 100%;
   font-size: 1.5rem;
-  color: white;
   font-weight: bold;
+
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+}
+
+.book {
+  background-color: white;
+  text-align: center;
+  border: 2px purple solid;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.book > p:first-child {
+  margin-top: 10px;
+  margin-bottom: 40px;
 }

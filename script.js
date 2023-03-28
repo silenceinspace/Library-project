@@ -1,62 +1,79 @@
 // array where books are stored
-let myLibrary = [
-  new Book(1984, "George Orwell", 320),
-  new Book("Kobzar", "Taras Shevcenko", 194),
-  new Book("Sherlock Holmes", "Artur Konan Doile", 187),
-];
+let myLibrary = [];
 
-// object constructor
 function Book(title, author, pages) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  // this.read = read;
 }
 
-Book.prototype.info = function () {
-  return `${this.title} by ${this.author}, ${this.pages} pages.`;
-};
-
-// get DOM nodes of the input fields
+// add new book
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookPages = document.querySelector("#book-pages");
 
-// clear fill fields for new input
+const addNewBookBtn = document.querySelector("form button");
+addNewBookBtn.addEventListener("click", addBookToLibrary);
+
+function addBookToLibrary() {
+  if (
+    checkIfInputIsEmpty(bookTitle) ||
+    checkIfInputIsEmpty(bookAuthor) ||
+    checkIfInputIsEmpty(bookPages)
+  ) {
+    return alert("Fill in all fields!"); // if there's an empty field, then don't proceed
+  }
+
+  let book = new Book(bookTitle.value, bookAuthor.value, bookPages.value);
+  myLibrary.push(book);
+  showBooks(book);
+  clearInputFields();
+  trackBookChanges();
+
+  return myLibrary;
+}
+
+function checkIfInputIsEmpty(field) {
+  let text = field.value.match(/[\w\d]{2,20}/);
+  if (text == null) {
+    return true;
+  }
+}
+
 function clearInputFields() {
   return (
     (bookAuthor.value = ""), (bookTitle.value = ""), (bookPages.value = "")
   );
 }
 
-// add new book
-const addNewBookBtn = document.querySelector('[type="button"]');
-addNewBookBtn.addEventListener("click", addBookToLibrary);
+// update info about books
+const booksNumber = document.querySelector(".book-num");
+const unreadNumber = document.querySelector(".unread-num");
+const readNumber = document.querySelector(".read-num");
 
-function addBookToLibrary() {
-  let title = bookTitle.value;
-  let author = bookAuthor.value;
-  let pages = bookPages.value;
+function trackBookChanges() {
+  booksNumber.textContent = `Books: ${myLibrary.length}`;
+  unreadNumber.textContent = `Unread: ${myLibrary.length}`;
 
-  // if fields are NOT empty, then create an instance of the book constructor and push into the library
-  if (title != "" && author != "" && pages != "") {
-    let book = new Book(title, author, pages);
-    myLibrary.push(book);
-    showBooks(book);
-    clearInputFields();
-
-    return myLibrary;
-  } else {
-    console.log("Fill in all info!");
-  }
+  readNumber.textContent = `Read: 0`;
 }
 
 // display books
-myLibrary.forEach(showBooks);
 function showBooks(item) {
-  let node = document.createElement("p");
-  let textNode = document.createTextNode("- " + item.info());
-  node.appendChild(textNode);
-  node.classList.add("book");
-  document.querySelector(".display-titles").appendChild(node);
+  let div = document.createElement("div");
+  div.classList.add("book");
+
+  for (let i = 0; i < 3; i++) {
+    let para = document.createElement("p");
+    if (i == 0) {
+      para.textContent = `"${item.title}"`;
+    } else if (i == 1) {
+      para.textContent = `by: ${item.author}`;
+    } else if (i == 2) {
+      para.textContent = `pages: ${item.pages}`;
+    }
+    div.appendChild(para);
+  }
+
+  document.querySelector(".display-titles").appendChild(div);
 }

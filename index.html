@@ -11,41 +11,47 @@
 
   <body>
     <div class="container">
-      <h3>Book library</h3>
+      <div class="title-section">
+        <div class="book-info">
+          <h1>Book Library</h1>
+          <h3 class="book-num">Books:</h3>
+          <h3 class="read-num">Read:</h3>
+          <h3 class="unread-num">Unread:</h3>
+        </div>
 
-      <form action="">
-        <p class="one">
-          <label for="book-title">Title: </label>
-          <input type="text" id="book-title" name="title" />
-        </p>
+        <form action="">
+          <p class="title-input">
+            <label for="book-title">Title*: </label>
+            <input type="text" id="book-title" name="title" />
+          </p>
+          <p class="author-input">
+            <label for="book-author">Author*: </label>
+            <input type="text" name="author" id="book-author" />
+          </p>
+          <p class="pages-input">
+            <label for="book-pages">Pages*: </label>
+            <input type="number" name="pages" id="book-pages" />
+          </p>
+          <button type="button">NEW BOOK</button>
+        </form>
+      </div>
 
-        <p class="two">
-          <label for="book-author">Author: </label>
-          <input type="text" name="author" id="book-author" />
-        </p>
-
-        <p class="three">
-          <label for="book-pages">Pages: </label>
-          <input type="text" name="pages" id="book-pages" />
-        </p>
-
-        <!-- <p>Have you read it?</p>
-        <p>
-          <label for="book-is-read">Yes</label>
-          <input type="radio" id="book-is-read" name="status" value="Yes" />
-
-          <label for="book-not-read">No</label>
-          <input
-            type="radio"
-            id="book-not-read"
-            name="status"
-            value="No"
-            checked
-          />
-        </p> -->
-      </form>
-      <button type="button">NEW BOOK</button>
+      <div class="display-titles"></div>
     </div>
-    <div class="display-titles"></div>
   </body>
 </html>
+
+<!-- <p>Have you read it?</p>
+      <p>
+        <label for="book-is-read">Yes</label>
+        <input type="radio" id="book-is-read" name="status" value="Yes" />
+
+        <label for="book-not-read">No</label>
+        <input
+          type="radio"
+          id="book-not-read"
+          name="status"
+          value="No"
+          checked
+        />
+      </p> -->
