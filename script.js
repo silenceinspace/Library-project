@@ -1,5 +1,8 @@
 // array where books are stored
-let myLibrary = [];
+let myLibrary = [
+  new Book(1984, "Orwell", 250),
+  new Book("Harry Potter", "J.K.Rowling", 258),
+];
 
 function Book(title, author, pages) {
   this.title = title;
@@ -21,45 +24,45 @@ function addBookToLibrary() {
     checkIfInputIsEmpty(bookAuthor) ||
     checkIfInputIsEmpty(bookPages)
   ) {
-    return alert("Fill in all fields!"); // if there's an empty field, then don't proceed
+    return alert("Fill in all fields!");
   }
 
   let book = new Book(bookTitle.value, bookAuthor.value, bookPages.value);
   myLibrary.push(book);
-  showBooks(book);
-  clearInputFields();
-  trackBookChanges();
-
-  return myLibrary;
+  createCard(book);
+  console.log(myLibrary);
+  // clearInputFields();
 }
 
 function checkIfInputIsEmpty(field) {
-  let text = field.value.match(/[\w\d]{2,20}/);
-  if (text == null) {
+  if (field.value === "") {
+    console.log("empty field");
     return true;
   }
 }
 
 function clearInputFields() {
-  return (
-    (bookAuthor.value = ""), (bookTitle.value = ""), (bookPages.value = "")
-  );
+  bookAuthor.value = "";
+  bookTitle.value = "";
+  bookPages.value = "";
 }
 
-// update info about books
-const booksNumber = document.querySelector(".book-num");
-const unreadNumber = document.querySelector(".unread-num");
-const readNumber = document.querySelector(".read-num");
-
-function trackBookChanges() {
-  booksNumber.textContent = `Books: ${myLibrary.length}`;
-  unreadNumber.textContent = `Unread: ${myLibrary.length}`;
-
-  readNumber.textContent = `Read: 0`;
+// remove nodes from DOM
+const removeAll = document.querySelector(".remove-all");
+removeAll.addEventListener("click", removeFromDOM);
+function removeFromDOM() {
+  for (let i = 0; i < myLibrary.length; i++) {
+    let child = document.querySelector(".display-titles > div");
+    console.log(`${child} ${[i]}`);
+    child.remove();
+  }
+  return (myLibrary = []);
 }
 
-// display books
-function showBooks(item) {
+// generate a book card
+const displayTitles = document.querySelector(".display-titles");
+myLibrary.forEach(createCard);
+function createCard(item) {
   let div = document.createElement("div");
   div.classList.add("book");
 
@@ -74,6 +77,18 @@ function showBooks(item) {
     }
     div.appendChild(para);
   }
-
-  document.querySelector(".display-titles").appendChild(div);
+  displayTitles.appendChild(div);
 }
+
+// update info about books
+
+// const booksNumber = document.querySelector(".book-num");
+// const unreadNumber = document.querySelector(".unread-num");
+// const readNumber = document.querySelector(".read-num");
+
+// function trackBookChanges() {
+//   booksNumber.textContent = `Books: ${myLibrary.length}`;
+//   unreadNumber.textContent = `Unread: ${myLibrary.length}`;
+
+//   readNumber.textContent = `Read: 0`;
+// }

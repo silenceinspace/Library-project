@@ -49,14 +49,16 @@ form {
   gap: 20px;
 }
 
+form > button {
+  display: block;
+  margin: auto;
+}
+
 button {
   border-radius: 10px;
   padding: 10px 40px;
   font-size: 1.3rem;
   border: 2px purple solid;
-
-  display: block;
-  margin: auto;
 }
 
 button:hover {
@@ -112,4 +114,10 @@ form label {
 .book > p:first-child {
   margin-top: 10px;
   margin-bottom: 40px;
+}
+
+.book-info > button {
+  width: 60%;
+  display: block;
+  margin: auto;
 }
