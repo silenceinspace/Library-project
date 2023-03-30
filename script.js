@@ -11,6 +11,22 @@ function Book(title, author, pages, id) {
   this.id = id;
 }
 
+Book.prototype.toggleStatus = function (card) {
+  if (this.status === "read") {
+    this.status = "unread";
+    document.querySelector(`[data-index="${card}"]`).classList.remove("read"); // ?? there can be two data-attibutes with the same number... 
+    document.querySelector(`[data-index="${card}"]`).classList.add("unread");
+    return "Book is not read";
+  } else {
+    this.status = "read";
+    document.querySelector(`[data-index="${card}"]`).classList.remove("unread");
+    document.querySelector(`[data-index="${card}"]`).classList.add("read");
+    return "Book is read";
+  }
+};
+
+// 4. Add a “NEW BOOK” button that brings up a form (hide input fields in the first place)
+
 // add new book
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
@@ -35,6 +51,8 @@ function addBookToLibrary() {
     myLibrary.length
   );
   myLibrary.push(book);
+  console.log(`Length: ${myLibrary.length}`);
+  console.log(`Causes problem: ${myLibrary.length - 1}`);
   createCard(book, myLibrary.length - 1);
   // clearInputFields();
 
@@ -55,15 +73,26 @@ function clearInputFields() {
 
 // generate a book card
 const displayTitles = document.querySelector(".display-titles");
+
 myLibrary.forEach(createCard); // initial demonstration of manually set books on an array
 console.log(myLibrary); // just visual help for seeing an array
 function createCard(item, index) {
   let removeOne = document.createElement("button"); // create a remove button
+  removeOne.classList.add("btn-rmv-card");
   removeOne.textContent = "X";
   removeOneBook(removeOne, index);
 
+  // status of the book
+  let bookStatus = document.createElement("button");
+  bookStatus.classList.add("btn-card");
+  bookStatus.textContent = "Book is not read";
+  bookStatus.addEventListener("click", () => {
+    bookStatus.textContent = item.toggleStatus(index);
+  });
+
   let div = document.createElement("div"); // create a book card
   div.classList.add("book");
+  div.classList.add("unread");
   div.setAttribute("data-index", index);
 
   for (let i = 0; i < 3; i++) {
@@ -80,6 +109,7 @@ function createCard(item, index) {
   }
 
   div.appendChild(removeOne);
+  div.appendChild(bookStatus);
   displayTitles.appendChild(div);
 }
 
