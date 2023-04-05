@@ -1,8 +1,5 @@
 // array where books are stored
-let myLibrary = [
-  new Book(1984, "Orwell", 250, 0),
-  new Book("Harry Potter", "J.K.Rowling", 258, 1),
-];
+let myLibrary = [];
 
 function Book(title, author, pages, id) {
   this.title = title;
@@ -11,19 +8,19 @@ function Book(title, author, pages, id) {
   this.id = id;
 }
 
-Book.prototype.toggleStatus = function (card) {
-  if (this.status === "read") {
-    this.status = "unread";
-    document.querySelector(`[data-index="${card}"]`).classList.remove("read"); // ?? there can be two data-attibutes with the same number... 
-    document.querySelector(`[data-index="${card}"]`).classList.add("unread");
-    return "Book is not read";
-  } else {
-    this.status = "read";
-    document.querySelector(`[data-index="${card}"]`).classList.remove("unread");
-    document.querySelector(`[data-index="${card}"]`).classList.add("read");
-    return "Book is read";
-  }
-};
+// Book.prototype.toggleStatus = function (card) {
+//   if (this.status === "read") {
+//     this.status = "unread";
+//     document.querySelector(`[data-index="${card}"]`).classList.remove("read"); // ?? there can be two data-attibutes with the same number...
+//     document.querySelector(`[data-index="${card}"]`).classList.add("unread");
+//     return "Book is not read";
+//   } else {
+//     this.status = "read";
+//     document.querySelector(`[data-index="${card}"]`).classList.remove("unread");
+//     document.querySelector(`[data-index="${card}"]`).classList.add("read");
+//     return "Book is read";
+//   }
+// };
 
 // 4. Add a “NEW BOOK” button that brings up a form (hide input fields in the first place)
 
@@ -51,12 +48,10 @@ function addBookToLibrary() {
     myLibrary.length
   );
   myLibrary.push(book);
-  console.log(`Length: ${myLibrary.length}`);
-  console.log(`Causes problem: ${myLibrary.length - 1}`);
-  createCard(book, myLibrary.length - 1);
+  createCard(book, myLibrary.indexOf(myLibrary[myLibrary.length - 1]));
   // clearInputFields();
 
-  console.log(myLibrary); // just visual help for seeing an array
+  console.log(myLibrary); // !!!
 }
 
 function checkIfInputIsEmpty(field) {
@@ -74,29 +69,26 @@ function clearInputFields() {
 // generate a book card
 const displayTitles = document.querySelector(".display-titles");
 
-myLibrary.forEach(createCard); // initial demonstration of manually set books on an array
-console.log(myLibrary); // just visual help for seeing an array
 function createCard(item, index) {
-  let removeOne = document.createElement("button"); // create a remove button
+  let removeOne = document.createElement("button");
   removeOne.classList.add("btn-rmv-card");
   removeOne.textContent = "X";
-  removeOneBook(removeOne, index);
+  removeOneBook(removeOne);
 
   // status of the book
-  let bookStatus = document.createElement("button");
-  bookStatus.classList.add("btn-card");
-  bookStatus.textContent = "Book is not read";
-  bookStatus.addEventListener("click", () => {
-    bookStatus.textContent = item.toggleStatus(index);
-  });
+  // let bookStatus = document.createElement("button");
+  // bookStatus.classList.add("btn-card");
+  // bookStatus.textContent = "Book is not read";
+  // bookStatus.addEventListener("click", () => {
+  //   bookStatus.textContent = item.toggleStatus(index);
+  // });
 
-  let div = document.createElement("div"); // create a book card
+  let div = document.createElement("div");
   div.classList.add("book");
   div.classList.add("unread");
   div.setAttribute("data-index", index);
 
   for (let i = 0; i < 3; i++) {
-    // set a book object's key properties on specific paragraphs
     let para = document.createElement("p");
     if (i == 0) {
       para.textContent = `"${item.title}"`;
@@ -108,8 +100,8 @@ function createCard(item, index) {
     div.appendChild(para);
   }
 
+  // div.appendChild(bookStatus);
   div.appendChild(removeOne);
-  div.appendChild(bookStatus);
   displayTitles.appendChild(div);
 }
 
@@ -120,23 +112,39 @@ function removeFromDOM() {
   for (let i = 0; i < myLibrary.length; i++) {
     document.querySelector("[data-index]").remove();
   }
-  console.log((myLibrary = [])); // just visual help for seeing an array;
-  return (myLibrary = []); // remove all books from an array too (assinging to an empty array);
+  console.log((myLibrary = []));
+  return (myLibrary = []);
 }
 
-function removeOneBook(item, position) {
+function removeOneBook(item) {
   item.addEventListener("click", () => {
-    let specificCard = document.querySelector(`[data-index="${position}"]`);
+    let specificCard = item
+      .closest("[data-index]")
+      .getAttributeNode("data-index").value;
 
-    // data-attribute's value is a string
+    // remove a node element + an array item
     for (let i = 0; i < myLibrary.length; i++) {
-      if (myLibrary[i].id == specificCard.getAttribute("data-index")) {
-        myLibrary.splice([i], 1); // remove a book from an array
-        specificCard.remove(); // remove a book from DOM (on the screen)
+      if (myLibrary[i].id == specificCard) {
+        myLibrary.splice([i], 1);
+        item.parentElement.remove();
       }
     }
-    console.log(myLibrary); // just visual help for seeing an array
+  
+    updateIndexes();
   });
+}
+
+function updateIndexes() {
+  for (let i = 0; i < myLibrary.length; i++) {
+    myLibrary[i].id = i;
+  }
+
+  let start = 0;
+  let nodeList = document.querySelectorAll(`[data-index]`);
+  for (let elem of nodeList) {
+    elem.setAttribute("data-index", start);
+    start += 1;
+  }
 }
 
 // update info about books
