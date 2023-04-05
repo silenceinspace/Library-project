@@ -8,21 +8,21 @@ function Book(title, author, pages, id) {
   this.id = id;
 }
 
-// Book.prototype.toggleStatus = function (card) {
-//   if (this.status === "read") {
-//     this.status = "unread";
-//     document.querySelector(`[data-index="${card}"]`).classList.remove("read"); // ?? there can be two data-attibutes with the same number...
-//     document.querySelector(`[data-index="${card}"]`).classList.add("unread");
-//     return "Book is not read";
-//   } else {
-//     this.status = "read";
-//     document.querySelector(`[data-index="${card}"]`).classList.remove("unread");
-//     document.querySelector(`[data-index="${card}"]`).classList.add("read");
-//     return "Book is read";
-//   }
-// };
+Book.prototype.toggleStatus = function (specificBook) {
+  if (this.status === "read") {
+    this.status = "unread";
+    specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
+      "book unread";
+    return "Book is not read";
+  } else {
+    this.status = "read";
+    specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
+      "book read";
+    return "Book is read";
+  }
+};
 
-// 4. Add a “NEW BOOK” button that brings up a form (hide input fields in the first place)
+// 1. Add a “NEW BOOK” button that brings up a form (hide input fields in the first place)
 
 // add new book
 const bookTitle = document.querySelector("#book-title");
@@ -50,8 +50,6 @@ function addBookToLibrary() {
   myLibrary.push(book);
   createCard(book, myLibrary.indexOf(myLibrary[myLibrary.length - 1]));
   // clearInputFields();
-
-  console.log(myLibrary); // !!!
 }
 
 function checkIfInputIsEmpty(field) {
@@ -70,18 +68,19 @@ function clearInputFields() {
 const displayTitles = document.querySelector(".display-titles");
 
 function createCard(item, index) {
+  // remove button
   let removeOne = document.createElement("button");
   removeOne.classList.add("btn-rmv-card");
   removeOne.textContent = "X";
   removeOneBook(removeOne);
 
   // status of the book
-  // let bookStatus = document.createElement("button");
-  // bookStatus.classList.add("btn-card");
-  // bookStatus.textContent = "Book is not read";
-  // bookStatus.addEventListener("click", () => {
-  //   bookStatus.textContent = item.toggleStatus(index);
-  // });
+  let bookStatus = document.createElement("button");
+  bookStatus.classList.add("btn-card");
+  bookStatus.textContent = "Book is not read";
+  bookStatus.addEventListener("click", () => {
+    bookStatus.textContent = item.toggleStatus(bookStatus);
+  });
 
   let div = document.createElement("div");
   div.classList.add("book");
@@ -100,7 +99,7 @@ function createCard(item, index) {
     div.appendChild(para);
   }
 
-  // div.appendChild(bookStatus);
+  div.appendChild(bookStatus);
   div.appendChild(removeOne);
   displayTitles.appendChild(div);
 }
@@ -112,7 +111,6 @@ function removeFromDOM() {
   for (let i = 0; i < myLibrary.length; i++) {
     document.querySelector("[data-index]").remove();
   }
-  console.log((myLibrary = []));
   return (myLibrary = []);
 }
 
@@ -129,7 +127,7 @@ function removeOneBook(item) {
         item.parentElement.remove();
       }
     }
-  
+
     updateIndexes();
   });
 }
@@ -147,15 +145,22 @@ function updateIndexes() {
   }
 }
 
-// update info about books
+/*
+2. update info about books
+const booksNumber = document.querySelector(".book-num");
+const unreadNumber = document.querySelector(".unread-num");
+const readNumber = document.querySelector(".read-num");
 
-// const booksNumber = document.querySelector(".book-num");
-// const unreadNumber = document.querySelector(".unread-num");
-// const readNumber = document.querySelector(".read-num");
+function trackBookChanges() {
+  booksNumber.textContent = `Books: ${myLibrary.length}`;
+  unreadNumber.textContent = `Unread: ${myLibrary.length}`;
 
-// function trackBookChanges() {
-//   booksNumber.textContent = `Books: ${myLibrary.length}`;
-//   unreadNumber.textContent = `Unread: ${myLibrary.length}`;
+  readNumber.textContent = `Read: 0`;
+}
+*/
 
-//   readNumber.textContent = `Read: 0`;
-// }
+/*
+3. Possible improvements:
+one function = one action
+organize my code
+*/
