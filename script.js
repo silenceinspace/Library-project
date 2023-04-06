@@ -1,11 +1,12 @@
 // array where books are stored
 let myLibrary = [];
 
-function Book(title, author, pages, id) {
+function Book(title, author, pages, id, status) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.id = id;
+  this.status = status;
 }
 
 Book.prototype.toggleStatus = function (specificBook) {
@@ -13,11 +14,13 @@ Book.prototype.toggleStatus = function (specificBook) {
     this.status = "unread";
     specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
       "book unread";
+    trackReadAndUnreadNumber();
     return "Book is not read";
   } else {
     this.status = "read";
     specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
       "book read";
+    trackReadAndUnreadNumber();
     return "Book is read";
   }
 };
@@ -45,10 +48,14 @@ function addBookToLibrary() {
     bookTitle.value,
     bookAuthor.value,
     bookPages.value,
-    myLibrary.length
+    myLibrary.length,
+    "unread"
   );
   myLibrary.push(book);
   createCard(book, myLibrary.indexOf(myLibrary[myLibrary.length - 1]));
+  trackBookNumber();
+  trackReadAndUnreadNumber();
+
   // clearInputFields();
 }
 
@@ -106,12 +113,13 @@ function createCard(item, index) {
 
 // remove one/all books from the library array and on the display
 const removeAll = document.querySelector(".remove-all");
-removeAll.addEventListener("click", removeFromDOM);
-function removeFromDOM() {
+removeAll.addEventListener("click", removeAllFromDOM);
+function removeAllFromDOM() {
   for (let i = 0; i < myLibrary.length; i++) {
     document.querySelector("[data-index]").remove();
   }
-  return (myLibrary = []);
+  myLibrary = [];
+  resetStatsToZero();
 }
 
 function removeOneBook(item) {
@@ -129,6 +137,9 @@ function removeOneBook(item) {
     }
 
     updateIndexes();
+    trackBookNumber();
+    trackReadAndUnreadNumber();
+    resetStatsToZero();
   });
 }
 
@@ -145,19 +156,40 @@ function updateIndexes() {
   }
 }
 
-/*
-2. update info about books
+// Update stats about books
 const booksNumber = document.querySelector(".book-num");
 const unreadNumber = document.querySelector(".unread-num");
 const readNumber = document.querySelector(".read-num");
 
-function trackBookChanges() {
+function trackBookNumber() {
   booksNumber.textContent = `Books: ${myLibrary.length}`;
-  unreadNumber.textContent = `Unread: ${myLibrary.length}`;
-
-  readNumber.textContent = `Read: 0`;
 }
-*/
+
+function trackReadAndUnreadNumber() {
+  let unread = 0;
+  let read = 0;
+
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (myLibrary[i].status === "unread") {
+      unread += 1;
+      unreadNumber.textContent = `Unread: ${unread}`;
+      readNumber.textContent = `Read: ${read}`;
+    } else if (myLibrary[i].status === "read") {
+      read += 1;
+      readNumber.textContent = `Read: ${read}`;
+      unreadNumber.textContent = `Unread: ${unread}`;
+    }
+  }
+}
+
+function resetStatsToZero() {
+  if (myLibrary.length === 0) {
+    booksNumber.textContent = "Books: 0";
+    unreadNumber.textContent = "Unread: 0";
+    readNumber.textContent = "Read: 0";
+  } else return;
+}
+
 
 /*
 3. Possible improvements:
