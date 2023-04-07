@@ -25,17 +25,27 @@ Book.prototype.toggleStatus = function (specificBook) {
   }
 };
 
-// 1. Add a “NEW BOOK” button that brings up a form (hide input fields in the first place)
+// popup form
+const formPopUp = document.querySelector(".form-popup");
+const openPopupForm = document.querySelector(".add-book-btn");
+openPopupForm.addEventListener("click", () => {
+  if (formPopUp.style.display === "block") {
+    formPopUp.style.display = "none";
+  } else {
+    formPopUp.style.display = "block";
+  }
+});
 
 // add new book
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookPages = document.querySelector("#book-pages");
 
-const addNewBookBtn = document.querySelector("form button");
-addNewBookBtn.addEventListener("click", addBookToLibrary);
+const createBookBtn = document.querySelector(".btn-submit-form");
+createBookBtn.addEventListener("click", addBookToLibrary);
 
-function addBookToLibrary() {
+function addBookToLibrary(e) {
+  e.preventDefault();
   if (
     checkIfInputIsEmpty(bookTitle) ||
     checkIfInputIsEmpty(bookAuthor) ||
@@ -189,7 +199,6 @@ function resetStatsToZero() {
     readNumber.textContent = "Read: 0";
   } else return;
 }
-
 
 /*
 3. Possible improvements:

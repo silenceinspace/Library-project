@@ -11,33 +11,49 @@
 
   <body>
     <div class="container">
+      <!-- 1. Top section of the page with stats and image -->
       <div class="title-section">
         <div class="book-info">
           <h1>Book Library</h1>
           <h3 class="book-num">Books:</h3>
           <h3 class="read-num">Read:</h3>
           <h3 class="unread-num">Unread:</h3>
-          <button class="remove-all btn-default">REMOVE ALL</button>
+          <button class="remove-all btn-default">Clear history</button>
         </div>
-
-        <!-- <form action="">
-          <p class="title-input">
-            <label for="book-title">Title*: </label>
-            <input type="text" id="book-title" name="title" />
-          </p>
-          <p class="author-input">
-            <label for="book-author">Author*: </label>
-            <input type="text" name="author" id="book-author" />
-          </p>
-          <p class="pages-input">
-            <label for="book-pages">Pages*: </label>
-            <input type="number" name="pages" id="book-pages" />
-          </p>
-          <button class="btn-default" type="button">NEW BOOK</button>
-        </form> -->
+        <div class="library-image">
+          <img
+            src="./images/pexels-guilherme-rossi-2553425.jpg"
+            alt="book shelves"
+            height="250px"
+            width="300px"
+          />
+        </div>
       </div>
 
-      <div class="display-titles"></div>
+      <!-- 2. Bottom section of the page with book cards and popup form -->
+      <div class="display-titles">
+        <button class="add-book-btn">+</button>
+
+        <div class="form-popup">
+          <form action="" class="form-container">
+            <p class="title-input">
+              <label for="book-title">Title*: </label>
+              <input type="text" id="book-title" name="title" />
+            </p>
+            <p class="author-input">
+              <label for="book-author">Author*: </label>
+              <input type="text" name="author" id="book-author" />
+            </p>
+            <p class="pages-input">
+              <label for="book-pages">Pages*: </label>
+              <input type="number" name="pages" id="book-pages" />
+            </p>
+            <button type="submit" class="btn-submit-form">Create book</button>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+
+<!-- Photo by Guilherme Rossi: https://www.pexels.com/photo/assorted-title-book-lot-2553425/ -->
