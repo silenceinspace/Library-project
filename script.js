@@ -12,6 +12,7 @@ function Book(title, author, pages, id, status) {
 Book.prototype.toggleStatus = function (specificBook) {
   if (this.status === "read") {
     this.status = "unread";
+    // change the way I remove a specific div???
     specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
       "book unread";
     trackReadAndUnreadNumber();
@@ -36,6 +37,16 @@ openPopupForm.addEventListener("click", () => {
   }
 });
 
+// radio inputs
+const bookStatusRead = document.querySelector("#book-status1");
+const bookStatusUnread = document.querySelector("#book-status2");
+
+function setInitialBookStatus() {
+  if (bookStatusUnread.checked) {
+    return bookStatusUnread.value;
+  } else return bookStatusRead.value;
+}
+
 // add new book
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
@@ -59,7 +70,7 @@ function addBookToLibrary(e) {
     bookAuthor.value,
     bookPages.value,
     myLibrary.length,
-    "unread"
+    setInitialBookStatus()
   );
   myLibrary.push(book);
   createCard(book, myLibrary.indexOf(myLibrary[myLibrary.length - 1]));
@@ -84,6 +95,7 @@ function clearInputFields() {
 // generate a book card
 const displayTitles = document.querySelector(".display-titles");
 
+// Remake this function because there are too many actions???
 function createCard(item, index) {
   // remove button
   let removeOne = document.createElement("button");
@@ -94,14 +106,18 @@ function createCard(item, index) {
   // status of the book
   let bookStatus = document.createElement("button");
   bookStatus.classList.add("btn-card");
-  bookStatus.textContent = "Book is not read";
+  if (item.status === "read") {
+    bookStatus.textContent = "Book is read";
+  } else {
+    bookStatus.textContent = "Book is not read";
+  }
   bookStatus.addEventListener("click", () => {
     bookStatus.textContent = item.toggleStatus(bookStatus);
   });
 
   let div = document.createElement("div");
   div.classList.add("book");
-  div.classList.add("unread");
+  div.classList.add(item.status);
   div.setAttribute("data-index", index);
 
   for (let i = 0; i < 3; i++) {
@@ -123,7 +139,12 @@ function createCard(item, index) {
 
 // remove one/all books from the library array and on the display
 const removeAll = document.querySelector(".remove-all");
-removeAll.addEventListener("click", removeAllFromDOM);
+removeAll.addEventListener("click", () => {
+  if (confirm("Are you sure about removing all books from the library?")) {
+    removeAllFromDOM();
+  } else return;
+});
+
 function removeAllFromDOM() {
   for (let i = 0; i < myLibrary.length; i++) {
     document.querySelector("[data-index]").remove();
@@ -146,6 +167,7 @@ function removeOneBook(item) {
       }
     }
 
+    // is it the right way to call functions?
     updateIndexes();
     trackBookNumber();
     trackReadAndUnreadNumber();
@@ -201,7 +223,9 @@ function resetStatsToZero() {
 }
 
 /*
-3. Possible improvements:
-one function = one action
-organize my code
+1. One function = one action, make sure that lines of code are appropriate for that function
+2. Leave a couple of comments in places where I tried a new method/way of solving something
+3. Create more objects/arrays for individual variables, try to group things more frequently
+4. Understand if the way I call functions is the proper one
+5. Do not hardcore things, make sure that my code is flexible enough  
 */

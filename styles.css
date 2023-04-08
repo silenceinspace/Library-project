@@ -106,7 +106,7 @@ body {
 }
 
 .form-popup {
-  display: none;
+  /* display: none; */
   position: fixed;
   right: 30px;
   bottom: 120px;
@@ -128,11 +128,12 @@ form {
   width: 340px;
   background-color: skyblue;
   display: grid;
-  grid-template-rows: repeat(4, 40px);
+  grid-template-rows: repeat(5, 40px);
   gap: 20px;
 }
 
-form input {
+form input[type="text"],
+input[type="number"] {
   width: 200px;
   line-height: 20px;
   padding: 3px 8px;
@@ -146,7 +147,8 @@ form input {
   /* font-size: 100%; */
 }
 
-form input:focus {
+form input[type="text"]:focus,
+input[type="number"]:focus {
   border: 2px solid purple;
   outline: none;
 }
@@ -172,6 +174,15 @@ form > button:hover {
   color: red;
 }
 
+.status-input > label:first-child {
+  margin-right: 30px;
+}
+
+.status-input input {
+  width: 15px;
+  height: 15px;
+}
+
 /* card creation */
 .book {
   background-color: white;
@@ -179,6 +190,7 @@ form > button:hover {
   border: 2px purple solid;
   border-radius: 10px;
   padding: 15px;
+  width: 200px;
 
   position: relative;
 }
@@ -249,3 +261,12 @@ form > button:hover {
   color: darkolivegreen;
   background-color: white;
 }
+
+/* 
+  1. Shorten the number of properties by linking different similar parts
+  2. Add tooltiptext for buttons
+  3. Work on the display titles section - potentially add more padding on the sides to center books card appearing on the screen, make sure the grid works properly there
+  4. Reconsider some colors and sizes
+  5. Add some animation to the popup form button
+  6. Implement responsibility for smaller screens 
+*/
