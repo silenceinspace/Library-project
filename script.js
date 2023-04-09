@@ -27,8 +27,8 @@ Book.prototype.toggleStatus = function (specificBook) {
 };
 
 // popup form
-const formPopUp = document.querySelector(".form-popup");
-const openPopupForm = document.querySelector(".add-book-btn");
+const formPopUp = document.querySelector(".js-popup-form");
+const openPopupForm = document.querySelector(".js-add-book-btn");
 openPopupForm.addEventListener("click", () => {
   if (formPopUp.style.display === "block") {
     formPopUp.style.display = "none";
@@ -52,7 +52,7 @@ const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookPages = document.querySelector("#book-pages");
 
-const createBookBtn = document.querySelector(".btn-submit-form");
+const createBookBtn = document.querySelector(".js-popup-form__submit-btn");
 createBookBtn.addEventListener("click", addBookToLibrary);
 
 function addBookToLibrary(e) {
@@ -93,7 +93,7 @@ function clearInputFields() {
 }
 
 // generate a book card
-const displayTitles = document.querySelector(".display-titles");
+const displayTitles = document.querySelector(".js-display-section");
 
 // Remake this function because there are too many actions???
 function createCard(item, index) {
@@ -138,7 +138,7 @@ function createCard(item, index) {
 }
 
 // remove one/all books from the library array and on the display
-const removeAll = document.querySelector(".remove-all");
+const removeAll = document.querySelector(".js-remove-all");
 removeAll.addEventListener("click", () => {
   if (confirm("Are you sure about removing all books from the library?")) {
     removeAllFromDOM();
@@ -189,9 +189,9 @@ function updateIndexes() {
 }
 
 // Update stats about books
-const booksNumber = document.querySelector(".book-num");
-const unreadNumber = document.querySelector(".unread-num");
-const readNumber = document.querySelector(".read-num");
+const booksNumber = document.querySelector(".js-book-num");
+const unreadNumber = document.querySelector(".js-unread-num");
+const readNumber = document.querySelector(".js-read-num");
 
 function trackBookNumber() {
   booksNumber.textContent = `Books: ${myLibrary.length}`;

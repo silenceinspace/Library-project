@@ -12,16 +12,15 @@
 
   <body>
     <div class="container">
-      <!-- 1. Top section of the page with stats and image -->
-      <div class="title-section">
-        <div class="book-info">
+      <div class="header-section">
+        <div class="header-section__book-info">
           <h1>Book Library</h1>
-          <h3 class="book-num">Books:</h3>
-          <h3 class="read-num">Read:</h3>
-          <h3 class="unread-num">Unread:</h3>
-          <button class="remove-all btn-default">Clear history</button>
+          <h3 class="js-book-num">Books:</h3>
+          <h3 class="js-read-num">Read:</h3>
+          <h3 class="js-unread-num">Unread:</h3>
+          <button class="js-remove-all">Clear history</button>
         </div>
-        <div class="library-image">
+        <div class="header-section__library-image">
           <img
             src="./images/pexels-guilherme-rossi-2553425.jpg"
             alt="book shelves"
@@ -31,26 +30,24 @@
         </div>
       </div>
 
-      <!-- 2. Bottom section of the page with book cards and popup form -->
-      <div class="display-titles">
-        <button class="add-book-btn">+</button>
-
-        <div class="form-popup">
-          <form action="" class="form-container">
-            <p class="title-input">
+      <div class="js-display-section">
+        <button class="js-add-book-btn">+</button>
+        <div class="js-popup-form">
+          <form>
+            <p class="js-popup-form__title-input">
               <label for="book-title">Title*: </label>
-              <input type="text" id="book-title" name="title" />
+              <input type="text" name="title" id="book-title" />
             </p>
-            <p class="author-input">
+            <p class="js-popup-form__author-input">
               <label for="book-author">Author*: </label>
               <input type="text" name="author" id="book-author" />
             </p>
-            <p class="pages-input">
+            <p class="js-popup-form__pages-input">
               <label for="book-pages">Pages*: </label>
               <input type="number" name="pages" id="book-pages" />
             </p>
-            <p class="status-input">
-              <label for="">Status*: </label>
+            <p class="js-popup-form__status-input">
+              <label>Status*: </label>
               <input
                 type="radio"
                 name="status"
@@ -67,12 +64,13 @@
               />
               <label for="book-status2">Unread</label>
             </p>
-            <button type="submit" class="btn-submit-form">Create book</button>
+            <button type="submit" class="js-popup-form__submit-btn">Create book</button>
           </form>
         </div>
       </div>
+
       <footer id="footer">
-        <p class="github-link">
+        <p class="footer__github-link">
           <a target="_blank" href="https://github.com/silenceinspace"
             >GitHub account
           </a>
@@ -81,12 +79,3 @@
     </div>
   </body>
 </html>
-
-<!-- 
-  Photo by Guilherme Rossi: https://www.pexels.com/photo/assorted-title-book-lot-2553425/ 
-  Favicon: https://icons8.com/
-
-
-  4. Be consistent with the sequence of html attributes
-  5. Reconsider class names
--->
