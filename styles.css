@@ -106,7 +106,7 @@ body {
 }
 
 .form-popup {
-  /* display: none; */
+  display: none;
   position: fixed;
   right: 30px;
   bottom: 120px;
@@ -260,6 +260,23 @@ form > button:hover {
   cursor: pointer;
   color: darkolivegreen;
   background-color: white;
+}
+
+#footer {
+  padding: 15px;
+  background-color: black;
+  text-align: center;
+}
+
+#footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#footer a:hover {
+  color: red;
+  text-decoration: underline;
 }
 
 /* 
