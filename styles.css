@@ -17,18 +17,18 @@ body {
 .container {
   display: grid;
   grid-template-rows: 310px 1fr;
-  background-color: goldenrod;
   min-height: 100vh;
+  background-color: goldenrod;
 }
 
 .header-section {
-  padding: 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 250px;
 
-  max-width: 1000px;
+  padding: 30px;
   margin: auto;
+  max-width: 1000px;
 }
 
 .header-section__library-image {
@@ -48,68 +48,74 @@ body {
 }
 
 .js-remove-all {
-  display: block;
   margin: auto;
-}
-
-.js-remove-all {
-  border-radius: 10px;
   padding: 10px 20px;
   font-size: 1.3rem;
+}
+
+.js-popup-form,
+form {
+  border-radius: 10px;
+}
+
+.js-remove-all,
+.js-add-book-btn,
+form > button {
+  display: block;
+  border-radius: 10px;
   border: 2px purple solid;
 }
 
-.js-remove-all:hover {
+button,
+input {
+  cursor: pointer;
+}
+
+.js-remove-all:hover,
+.js-add-book-btn:hover,
+form > button:hover {
   color: red;
   background-color: gainsboro;
 }
 
 /* 2. Bottom section */
 .js-display-section {
-  padding: 30px 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+
+  padding: 30px 120px;
   width: 100%;
   font-size: 1.5rem;
   font-weight: bold;
-
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  /* grid-auto-rows: 200px; */
 }
 
 .js-add-book-btn {
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-
-  display: block;
   width: 70px;
   height: 70px;
 
   font-size: 3rem;
   font-weight: bold;
   border-radius: 50%;
-  border: 2px purple solid;
-  background-color: white;
 
-  cursor: pointer;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
   z-index: 3;
 }
 
 .js-add-book-btn:hover {
-  /* transform: scale(1.2); */
   color: green;
-  background-color: gainsboro;
 }
 
 .js-popup-form {
   display: none;
+  border: 5px solid purple;
+  background-color: purple;
+
   position: fixed;
   right: 30px;
   bottom: 120px;
-  border: 5px solid purple;
-  background-color: purple;
-  border-radius: 10px;
   z-index: 3;
 }
 
@@ -122,13 +128,13 @@ body {
 }
 
 form {
-  padding: 20px;
-  width: 340px;
-  background-color: skyblue;
-  border-radius: 10px;
   display: grid;
   grid-template-rows: repeat(5, 40px);
   gap: 20px;
+
+  padding: 20px;
+  width: 340px;
+  background-color: skyblue;
 }
 
 form input[type="text"],
@@ -143,7 +149,7 @@ input[type="number"] {
 
   font-family: inherit;
   font-size: 1rem;
-  /* font-size: 100%; */
+  font-style: italic;
 }
 
 form input[type="text"]:focus,
@@ -158,19 +164,9 @@ form label {
 }
 
 form > button {
-  display: block;
   margin: auto;
   padding: 10px 50px;
-
-  border-radius: 10px;
-  border: 2px purple solid;
-
   font-size: 1rem;
-}
-
-form > button:hover {
-  background-color: gainsboro;
-  color: red;
 }
 
 .js-popup-form__status-input > label:first-child {
@@ -184,19 +180,19 @@ form > button:hover {
 
 /* card creation */
 .book {
-  background-color: white;
-  text-align: center;
-  border: 2px purple solid;
-  border-radius: 10px;
+  width: 250px;
+  height: 300px;
   padding: 15px;
-  width: 200px;
+  text-align: center;
 
+  border-radius: 10px;
+  border: 2px purple solid;
   position: relative;
 }
 
 .book > p:first-child {
-  margin-top: 10px;
-  margin-bottom: 40px;
+  margin: 10px 45px 40px 0;
+  overflow-wrap: break-word;
 }
 
 .unread {
@@ -213,11 +209,12 @@ form > button:hover {
   right: 10px;
 
   padding: 10px 20px;
-  font-size: 1.3rem;
   color: white;
-  background-color: red;
+  font-size: 1.3rem;
+
   border: none;
   border-radius: 20px;
+  background-color: red;
 }
 
 .btn-rmv-card:hover {
@@ -225,9 +222,8 @@ form > button:hover {
   color: red;
 }
 
-.unread .btn-card {
+.btn-card {
   padding: 10px 20px;
-  background-color: palevioletred;
   border-radius: 10px;
   border: none;
 
@@ -237,28 +233,22 @@ form > button:hover {
   margin: 15px;
 }
 
-.unread .btn-card:hover {
-  cursor: pointer;
+.read .btn-card {
+  background-color: darkolivegreen;
+}
+
+.unread .btn-card {
+  background-color: palevioletred;
+}
+
+.unread .btn-card:hover,
+.read .btn-card:hover {
   color: palevioletred;
   background-color: white;
 }
 
-.read .btn-card {
-  padding: 10px 20px;
-  background-color: darkolivegreen;
-  border-radius: 10px;
-  border: none;
-
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  margin: 15px;
-}
-
 .read .btn-card:hover {
-  cursor: pointer;
   color: darkolivegreen;
-  background-color: white;
 }
 
 #footer {
@@ -278,20 +268,56 @@ form > button:hover {
   text-decoration: underline;
 }
 
-/* 
-  1. Shorten the number of properties by linking different similar parts
+::selection {
+  background-color: purple;
+}
 
-  2. Add tooltiptext for buttons
+@media (max-width: 768px) {
+  .js-display-section {
+    justify-items: center;
+    gap: 40px;
+  }
+}
 
-  3. Work on the display section - potentially add more padding on the sides to center books card appearing on the screen, make sure the grid works properly there
+@media (max-width: 600px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
 
-  4. Reconsider some sizes
+  .header-section {
+    display: flex;
+    flex-direction: column;
+  }
 
-  5. Add some animation to the popup form button
+  .header-section__library-image {
+    order: 1;
+    margin-bottom: 10px;
+  }
 
-  6. Implement responsibility for smaller screens 
+  .header-section__library-image > img {
+    width: 250px;
+    height: 200px;
+  }
 
-  7. Add pointer:cursor to make the page more alive
-  
-  8. Add a different color to ::selection
-*/
+  .header-section__book-info {
+    order: 2;
+  }
+
+  .js-display-section {
+    padding: 30px;
+  }
+
+  form {
+    width: 250px;
+  }
+
+  form input[type="text"],
+  input[type="number"] {
+    width: 120px;
+  }
+
+  .js-popup-form__status-input > label:first-child {
+    margin-right: 0;
+  }
+}
