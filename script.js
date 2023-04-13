@@ -163,8 +163,9 @@ function removeOneBook(item) {
       .getAttributeNode("data-index").value;
 
     // remove a node element with DOM parentElement property + splice (=throw away) a specific book item from the array
+    // equality is non-strict because the id property is "number" whereas the data-index's value is "string"
     for (let i = 0; i < myLibrary.length; i++) {
-      if (myLibrary[i].id === specificCard) {
+      if (myLibrary[i].id == specificCard) {
         myLibrary.splice([i], 1);
         item.parentElement.remove();
       }
