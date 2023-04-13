@@ -1,4 +1,4 @@
-// array where books are stored
+// 1. Array where books are stored + object constructor to creat multiple items with the same properties
 let myLibrary = [];
 
 function Book(title, author, pages, id, status) {
@@ -12,7 +12,7 @@ function Book(title, author, pages, id, status) {
 Book.prototype.toggleStatus = function (specificBook) {
   if (this.status === "read") {
     this.status = "unread";
-    // change the way I remove a specific div???
+    // closest() method searches for the closest ancestor by selector and returns a node that matches or null
     specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
       "book unread";
     trackReadAndUnreadNumber();
@@ -26,7 +26,7 @@ Book.prototype.toggleStatus = function (specificBook) {
   }
 };
 
-// popup form
+// 2. Popup form for input + function to add new books to the array as well as DOM
 const formPopUp = document.querySelector(".js-popup-form");
 const openPopupForm = document.querySelector(".js-add-book-btn");
 openPopupForm.addEventListener("click", () => {
@@ -37,25 +37,23 @@ openPopupForm.addEventListener("click", () => {
   }
 });
 
-// radio inputs
+const bookTitle = document.querySelector("#book-title");
+const bookAuthor = document.querySelector("#book-author");
+const bookPages = document.querySelector("#book-pages");
 const bookStatusRead = document.querySelector("#book-status1");
 const bookStatusUnread = document.querySelector("#book-status2");
 
 function setInitialBookStatus() {
+  // "unread" is checked by default, so the book will be created with the unread status if the user doesn't opt for the other option
   if (bookStatusUnread.checked) {
     return bookStatusUnread.value;
   } else return bookStatusRead.value;
 }
-
-// add new book
-const bookTitle = document.querySelector("#book-title");
-const bookAuthor = document.querySelector("#book-author");
-const bookPages = document.querySelector("#book-pages");
-
 const createBookBtn = document.querySelector(".js-popup-form__submit-btn");
 createBookBtn.addEventListener("click", addBookToLibrary);
 
 function addBookToLibrary(e) {
+  // preventDefault() does not allow a button inside a form element to submit data to a server, instead it is possible to make the button behave just like a regular button
   e.preventDefault();
   if (
     checkIfInputIsEmpty(bookTitle) ||
@@ -72,12 +70,14 @@ function addBookToLibrary(e) {
     myLibrary.length,
     setInitialBookStatus()
   );
+
   myLibrary.push(book);
-  createCard(book, myLibrary.indexOf(myLibrary[myLibrary.length - 1]));
+  createCard(book, myLibrary.length - 1);
+
+  // Update books' numbers while the library is being increased
   trackBookNumber();
   trackReadAndUnreadNumber();
-
-  // clearInputFields();
+  clearInputFields();
 }
 
 function checkIfInputIsEmpty(field) {
@@ -92,33 +92,17 @@ function clearInputFields() {
   bookPages.value = "";
 }
 
-// generate a book card
+// 3. Create elements in DOM that are not in HTML but are necessary
 const displayTitles = document.querySelector(".js-display-section");
 
-// Remake this function because there are too many actions???
 function createCard(item, index) {
-  // remove button
-  let removeOne = document.createElement("button");
-  removeOne.classList.add("btn-rmv-card");
-  removeOne.textContent = "X";
-  removeOneBook(removeOne);
-
-  // status of the book
-  let bookStatus = document.createElement("button");
-  bookStatus.classList.add("btn-card");
-  if (item.status === "read") {
-    bookStatus.textContent = "Book is read";
-  } else {
-    bookStatus.textContent = "Book is not read";
-  }
-  bookStatus.addEventListener("click", () => {
-    bookStatus.textContent = item.toggleStatus(bookStatus);
-  });
-
+  // card div
   let div = document.createElement("div");
   div.classList.add("book");
   div.classList.add(item.status);
+  // Set data-index attributes on divs with indexes corresponding to array items' indexes. It is important to associate a specific div with a specific book item in the array that will be removed at the same time
   div.setAttribute("data-index", index);
+  displayTitles.appendChild(div);
 
   for (let i = 0; i < 3; i++) {
     let para = document.createElement("p");
@@ -132,14 +116,33 @@ function createCard(item, index) {
     div.appendChild(para);
   }
 
-  div.appendChild(bookStatus);
+  // remove button
+  let removeOne = document.createElement("button");
+  removeOne.classList.add("btn-rmv-card");
+  removeOne.textContent = "X";
   div.appendChild(removeOne);
-  displayTitles.appendChild(div);
+  removeOneBook(removeOne);
+
+  // book status
+  let bookStatus = document.createElement("button");
+  bookStatus.classList.add("btn-card");
+  if (item.status === "read") {
+    bookStatus.textContent = "Book is read";
+  } else {
+    bookStatus.textContent = "Book is not read";
+  }
+  div.appendChild(bookStatus);
+
+  // toggleStatus() method is shared through the Book object constructor's prototype, prototypal inheritence will help to execute look-ups until a certain method is found
+  bookStatus.addEventListener("click", () => {
+    bookStatus.textContent = item.toggleStatus(bookStatus);
+  });
 }
 
-// remove one/all books from the library array and on the display
+// 4. Remove one or all books from the array and DOM
 const removeAll = document.querySelector(".js-remove-all");
 removeAll.addEventListener("click", () => {
+  // Make sure the user is actually willing to clear the whole library
   if (confirm("Are you sure about removing all books from the library?")) {
     removeAllFromDOM();
   } else return;
@@ -159,15 +162,14 @@ function removeOneBook(item) {
       .closest("[data-index]")
       .getAttributeNode("data-index").value;
 
-    // remove a node element + an array item
+    // remove a node element with DOM parentElement property + splice (=throw away) a specific book item from the array
     for (let i = 0; i < myLibrary.length; i++) {
-      if (myLibrary[i].id == specificCard) {
+      if (myLibrary[i].id === specificCard) {
         myLibrary.splice([i], 1);
         item.parentElement.remove();
       }
     }
 
-    // is it the right way to call functions?
     updateIndexes();
     trackBookNumber();
     trackReadAndUnreadNumber();
@@ -181,6 +183,7 @@ function updateIndexes() {
   }
 
   let start = 0;
+  // Loop over a node list with data-index attributes to keep them relevant to the book items' ids every time a book item is removed
   let nodeList = document.querySelectorAll(`[data-index]`);
   for (let elem of nodeList) {
     elem.setAttribute("data-index", start);
@@ -188,7 +191,7 @@ function updateIndexes() {
   }
 }
 
-// Update stats about books
+// 5. Update stats about books
 const booksNumber = document.querySelector(".js-book-num");
 const unreadNumber = document.querySelector(".js-unread-num");
 const readNumber = document.querySelector(".js-read-num");
@@ -206,7 +209,7 @@ function trackReadAndUnreadNumber() {
       unread += 1;
       unreadNumber.textContent = `Unread: ${unread}`;
       readNumber.textContent = `Read: ${read}`;
-    } else if (myLibrary[i].status === "read") {
+    } else {
       read += 1;
       readNumber.textContent = `Read: ${read}`;
       unreadNumber.textContent = `Unread: ${unread}`;
@@ -221,11 +224,3 @@ function resetStatsToZero() {
     readNumber.textContent = "Read: 0";
   } else return;
 }
-
-/*
-1. One function = one action, make sure that lines of code are appropriate for that function
-2. Leave a couple of comments in places where I tried a new method/way of solving something
-3. Create more objects/arrays for individual variables, try to group things more frequently
-4. Understand if the way I call functions is the proper one
-5. Do not hardcore things, make sure that my code is flexible enough  
-*/
