@@ -324,4 +324,8 @@ form > button {
   .js-popup-form__status-input > label:first-child {
     margin-right: 0;
   }
+
+  .js-popup-form__status-input > label[for] {
+    font-size: 0.9rem;
+  }
 }
