@@ -29,13 +29,15 @@ Book.prototype.toggleStatus = function (specificBook) {
 // 2. Popup form for input + function to add new books to the array as well as DOM
 const formPopUp = document.querySelector(".js-popup-form");
 const openPopupForm = document.querySelector(".js-add-book-btn");
-openPopupForm.addEventListener("click", () => {
+openPopupForm.addEventListener("click", changePopupFormView);
+
+function changePopupFormView() {
   if (formPopUp.style.display === "block") {
     formPopUp.style.display = "none";
   } else {
     formPopUp.style.display = "block";
   }
-});
+}
 
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
@@ -77,6 +79,7 @@ function addBookToLibrary(e) {
   // Update books' numbers while the library is being increased
   trackBookNumber();
   trackReadAndUnreadNumber();
+  changePopupFormView();
   clearInputFields();
 }
 

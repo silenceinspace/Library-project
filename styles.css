@@ -72,7 +72,6 @@ input {
 }
 
 .js-remove-all:hover,
-.js-add-book-btn:hover,
 form > button:hover {
   color: red;
   background-color: gainsboro;
@@ -91,21 +90,26 @@ form > button:hover {
 }
 
 .js-add-book-btn {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
+  background-color: green;
+  color: white;
 
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: bold;
   border-radius: 50%;
 
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 50px;
+  bottom: 100px;
   z-index: 3;
+  box-shadow: 0 0 20px white;
 }
 
 .js-add-book-btn:hover {
-  color: green;
+  background-color: white;
+  border: 2px solid lime;
+  color: lime;
 }
 
 .js-popup-form {
@@ -114,8 +118,8 @@ form > button:hover {
   background-color: purple;
 
   position: fixed;
-  right: 30px;
-  bottom: 120px;
+  right: 50px;
+  bottom: 200px;
   z-index: 3;
 }
 
