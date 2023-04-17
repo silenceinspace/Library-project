@@ -44,6 +44,7 @@ const bookAuthor = document.querySelector("#book-author");
 const bookPages = document.querySelector("#book-pages");
 const bookStatusRead = document.querySelector("#book-status1");
 const bookStatusUnread = document.querySelector("#book-status2");
+const popupForm = document.querySelector("form");
 
 function setInitialBookStatus() {
   // "unread" is checked by default, so the book will be created with the unread status if the user doesn't opt for the other option
@@ -75,24 +76,18 @@ function addBookToLibrary(e) {
 
   myLibrary.push(book);
   createCard(book, myLibrary.length - 1);
-
+  
   // Update books' numbers while the library is being increased
   trackBookNumber();
   trackReadAndUnreadNumber();
   changePopupFormView();
-  clearInputFields();
+  popupForm.reset();
 }
 
 function checkIfInputIsEmpty(field) {
   if (field.value === "") {
     return true;
   }
-}
-
-function clearInputFields() {
-  bookAuthor.value = "";
-  bookTitle.value = "";
-  bookPages.value = "";
 }
 
 // 3. Create elements in DOM that are not in HTML but are necessary
