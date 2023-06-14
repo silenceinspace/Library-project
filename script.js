@@ -1,30 +1,32 @@
 // 1. Array where books are stored + object constructor to creat multiple items with the same properties
 let myLibrary = [];
 
-function Book(title, author, pages, id, status) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.id = id;
-  this.status = status;
-}
-
-Book.prototype.toggleStatus = function (specificBook) {
-  if (this.status === "read") {
-    this.status = "unread";
-    // closest() method searches for the closest ancestor by selector and returns a node that matches or null
-    specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
-      "book unread";
-    trackReadAndUnreadNumber();
-    return "Book is not read";
-  } else {
-    this.status = "read";
-    specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
-      "book read";
-    trackReadAndUnreadNumber();
-    return "Book is read";
+class Book {
+  constructor(title, author, pages, id, status) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.id = id;
+    this.status = status;
   }
-};
+
+  toggleStatus(specificBook) {
+    if (this.status === "read") {
+      this.status = "unread";
+      // closest() method searches for the closest ancestor by selector and returns a node that matches or null
+      specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
+        "book unread";
+      trackReadAndUnreadNumber();
+      return "Book is not read";
+    } else {
+      this.status = "read";
+      specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
+        "book read";
+      trackReadAndUnreadNumber();
+      return "Book is read";
+    }
+  }
+}
 
 // 2. Popup form for input + function to add new books to the array as well as DOM
 const formPopUp = document.querySelector(".js-popup-form");
@@ -76,7 +78,7 @@ function addBookToLibrary(e) {
 
   myLibrary.push(book);
   createCard(book, myLibrary.length - 1);
-  
+
   // Update books' numbers while the library is being increased
   trackBookNumber();
   trackReadAndUnreadNumber();
