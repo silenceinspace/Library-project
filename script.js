@@ -250,14 +250,14 @@ function addBooksToLocalStorage() {
 }
 
 function clearLocalStorage() {
-  localStorage.clear();
+  localStorage.removeItem("bookStorage");
 }
 
 (function getBooksFromLocalStorage() {
   localStorageArray = JSON.parse(localStorage.getItem("bookStorage"));
 })();
 
-if (localStorage.length === 0) {
+if (localStorage.getItem("bookStorage") == null) {
   console.log("No data in local storage yet.");
 } else {
   populateMainStorage();
