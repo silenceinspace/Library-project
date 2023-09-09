@@ -1,4 +1,4 @@
-// 1. Array where books are stored + object constructor to creat multiple items with the same properties
+// 1. Array where books are stored + classObject constructor to creat multiple items with the same properties
 let myLibrary = [];
 
 class Book {
@@ -17,12 +17,14 @@ class Book {
       specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
         "book unread";
       trackReadAndUnreadNumber();
+      addBooksToLocalStorage();
       return "Book is not read";
     } else {
       this.status = "read";
       specificBook.closest(["[data-index]"]).getAttributeNode("class").value =
         "book read";
       trackReadAndUnreadNumber();
+      addBooksToLocalStorage();
       return "Book is read";
     }
   }
@@ -35,7 +37,11 @@ openPopupForm.addEventListener("click", changePopupFormView);
 
 function changePopupFormView() {
   if (formPopUp.style.display === "block") {
-    formPopUp.style.display = "none";
+    formPopUp.classList.add("fade-out");
+    setTimeout(() => {
+      formPopUp.classList.remove("fade-out");
+      formPopUp.style.display = "none";
+    }, 700);
   } else {
     formPopUp.style.display = "block";
   }
@@ -54,18 +60,30 @@ function setInitialBookStatus() {
     return bookStatusUnread.value;
   } else return bookStatusRead.value;
 }
+
 const createBookBtn = document.querySelector(".js-popup-form__submit-btn");
 createBookBtn.addEventListener("click", addBookToLibrary);
+function validateForm() {
+  if (bookTitle.validity.valueMissing) {
+    alert("Book title is missing!");
+    return true;
+  } else if (bookAuthor.validity.valueMissing) {
+    alert("Book author is missing");
+    return true;
+  } else if (bookPages.validity.valueMissing) {
+    alert("Book pages is missing");
+    return true;
+  }
 
-function addBookToLibrary(e) {
-  // preventDefault() does not allow a button inside a form element to submit data to a server, instead it is possible to make the button behave just like a regular button
-  e.preventDefault();
-  if (
-    checkIfInputIsEmpty(bookTitle) ||
-    checkIfInputIsEmpty(bookAuthor) ||
-    checkIfInputIsEmpty(bookPages)
-  ) {
-    return alert("Fill in all fields!");
+  if (bookPages.validity.rangeOverflow) {
+    alert("Book pages must be of value less than 10000");
+    return true;
+  }
+}
+
+function addBookToLibrary() {
+  if (validateForm()) {
+    return;
   }
 
   let book = new Book(
@@ -84,17 +102,11 @@ function addBookToLibrary(e) {
   trackReadAndUnreadNumber();
   changePopupFormView();
   popupForm.reset();
-}
-
-function checkIfInputIsEmpty(field) {
-  if (field.value === "") {
-    return true;
-  }
+  addBooksToLocalStorage();
 }
 
 // 3. Create elements in DOM that are not in HTML but are necessary
 const displayTitles = document.querySelector(".js-display-section");
-
 function createCard(item, index) {
   // card div
   let div = document.createElement("div");
@@ -133,7 +145,7 @@ function createCard(item, index) {
   }
   div.appendChild(bookStatus);
 
-  // toggleStatus() method is shared through the Book object constructor's prototype, prototypal inheritence will help to execute look-ups until a certain method is found
+  // toggleStatus() method is shared through the Book classObject constructor's prototype, prototypal inheritence will help to execute look-ups until a certain method is found
   bookStatus.addEventListener("click", () => {
     bookStatus.textContent = item.toggleStatus(bookStatus);
   });
@@ -154,6 +166,8 @@ function removeAllFromDOM() {
   }
   myLibrary = [];
   resetStatsToZero();
+  clearLocalStorage();
+  addBooksToLocalStorage();
 }
 
 function removeOneBook(item) {
@@ -170,11 +184,13 @@ function removeOneBook(item) {
         item.parentElement.remove();
       }
     }
-
     updateIndexes();
     trackBookNumber();
     trackReadAndUnreadNumber();
     resetStatsToZero();
+
+    clearLocalStorage();
+    addBooksToLocalStorage();
   });
 }
 
@@ -200,6 +216,7 @@ const readNumber = document.querySelector(".js-read-num");
 function trackBookNumber() {
   booksNumber.textContent = `Books: ${myLibrary.length}`;
 }
+trackBookNumber();
 
 function trackReadAndUnreadNumber() {
   let unread = 0;
@@ -224,4 +241,41 @@ function resetStatsToZero() {
     unreadNumber.textContent = "Unread: 0";
     readNumber.textContent = "Read: 0";
   } else return;
+}
+
+// 6. Local storage
+let localStorageArray = [];
+function addBooksToLocalStorage() {
+  localStorage.setItem("bookStorage", JSON.stringify(myLibrary));
+}
+
+function clearLocalStorage() {
+  localStorage.clear();
+}
+
+(function getBooksFromLocalStorage() {
+  localStorageArray = JSON.parse(localStorage.getItem("bookStorage"));
+})();
+
+if (localStorage.length === 0) {
+  console.log("No data in local storage yet.");
+} else {
+  populateMainStorage();
+}
+
+function populateMainStorage() {
+  for (let i = 0; i < localStorageArray.length; i++) {
+    const classObject = localStorageArray[i];
+    const book = new Book(
+      classObject.title,
+      classObject.author,
+      classObject.pages,
+      myLibrary.length,
+      classObject.status
+    );
+    myLibrary.push(book);
+    createCard(book, myLibrary.length - 1);
+  }
+  trackBookNumber();
+  trackReadAndUnreadNumber();
 }
